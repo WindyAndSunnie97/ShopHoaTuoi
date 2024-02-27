@@ -4,6 +4,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 const Header = () => {
   return (
     <View style={styles.container}>
+
       <View >
         <Text style={styles.title}>WindyIris</Text>
       </View>
@@ -16,22 +17,25 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'pink',
+
     flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center'
+    alignItems:'center',
+    paddingBottom:20,
+    paddingTop:15
   },
   title: {
     color: 'red',
-    fontStyle:'italic',
+    //fontStyle:'italic',
     fontWeight:'bold',
     fontSize:30,
+    fontFamily:'Lobster'
     
     
   },
   logo: {
-    width: 100,
-    height:100,
-  }
+    width: 80,
+    height:80,
+    borderRadius:100  }
 });
 export default Header;

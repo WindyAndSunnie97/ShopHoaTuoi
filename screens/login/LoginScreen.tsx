@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackgoundScreen from "../components/BackgoundScreen";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const LoginScreen =() =>{
     return(
@@ -17,17 +17,13 @@ const LoginScreen =() =>{
             </View>
             <View style={styles.form}>
                 <View style={styles.group}>
-                {/* <Icon name="rocket" color="#eee" size={30} /> */}
-                    <TextInput placeholder="Email Address" style ={styles.ip}></TextInput>
-                </View>
-
-                <View style={styles.group}>
-                {/* <Icon name="rocket" color="#eee" size={30} /> */}
+                
+                 <Icon name="person" style={styles.icon} />
                     <TextInput placeholder="Account Name" style ={styles.ip}></TextInput>
                 </View>
 
                 <View style={styles.group}>
-                {/* <Icon name="rocket" color="#eee" size={30} /> */}
+                 <Icon name="lock-closed" style={styles.icon} /> 
                     <TextInput placeholder="Password" style ={styles.ip} secureTextEntry={true}></TextInput>
                </View>
 
@@ -67,6 +63,8 @@ const styles = StyleSheet.create({
     group:{
         
         marginTop:15,
+        justifyContent:'center',
+
         
         
     },
@@ -75,6 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         borderColor:'pink',
         borderRadius:15,
+        paddingLeft:35
         
     },
     group1:{
@@ -87,6 +86,13 @@ const styles = StyleSheet.create({
         paddingVertical:15,
         alignItems:'center',
         borderRadius:10
+    },
+    icon:{
+        fontSize:22,
+        position:'absolute',
+        top:12,
+        zIndex:1000,
+        paddingLeft:10
     }
     
 }) 
