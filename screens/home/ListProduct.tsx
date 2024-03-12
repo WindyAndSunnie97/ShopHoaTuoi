@@ -4,101 +4,33 @@ import TitleBar from "../components/TitleBar";
 import { TouchableOpacity } from "react-native";
 import BackgroundProduct from "../components/BackgroundProduct";
 
-const ListProduct =() =>{
-//     return(
-//         <>
-//         <TitleBar tile = "Your Flower"/>
+const ListProduct = ({navigation}:any) => {
+    const [products, setProducts] = useState([]);
 
-//         <View style={styles.container}>
-          
-//             <View style={styles.item} >
-//                 <View style={styles.sale}>
-//                     <Text style={{color:'white',textAlign:'center'}}>Sale 20%</Text>
-//                 </View>
-//                 <Image source={require('../../assets/images/logo.png')} style={{width:'100%',height:150}} />
-//             <View style = {styles.dess}>
-//             <Text style={styles.desstext}>Your Flower</Text>
-//             </View>
-//             </View>
-            
-            
-//             <View style={styles.item}>
-//                 <Image source={require('../../assets/images/logo.png')} style={{width:'100%',height:150}}/>  
-//             <View style = {styles.dess}>
-//             <Text style={styles.desstext}>Your Flower</Text>
-//             </View>
-//             </View>
+    const getAPI = () => {
+        return fetch(`http://10.0.2.2:3000/api/Flowershop/product`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data) {
+                    // Lọc các sản phẩm có thuộc tính isFeatured là true
+                    const featuredProducts = data.filter((product: { isFeatured: boolean; }) => product.isFeatured === true);
+                    setProducts(featuredProducts);
+                } else {
+                    console.error('Data is null or undefined');
+                }
+            })
+            .catch(err => console.error(err));
+    }
 
-//             <View style={styles.item}>
-//                 <Image source={require('../../assets/images/logo.png')} style={{width:'100%',height:150}}/>
-//             <View style = {styles.dess}>
-//             <Text style={styles.desstext}>Your Flower</Text>
-//             </View>
-//             </View>
+    useEffect(() => {
+        getAPI();
+    }, []);
 
-//             <View style={styles.item}>
-//                 <Image source={require('../../assets/images/logo.png')} style={{width:'100%',height:150}}/>
-//             <View style = {styles.dess}>
-//             <Text style={styles.desstext}>Your Flower</Text>
-//             </View>
-//         </View>
-//         </View>
-
-//         </>
-//     )
-// }
-// const styles = StyleSheet.create({
-//     container:{
-//         flexDirection: 'row',
-//         flexWrap:'wrap',
-//         justifyContent: 'space-between'
-//     },
-//     item:{
-//         width: '40%',
-//         paddingTop:10,
-//         paddingBottom:10,
-//         paddingRight:1,
-        
-
-
-//     },
-//     dess:{
-//         backgroundColor:'pink',
-//         paddingVertical:8,
-        
-//     },
-//     desstext:{
-// color:'purple',
-// textAlign:'center'
-//     },
-//     sale:{
-//         backgroundColor:'pink',
-//         width:60,
-//         // height:100,
-//         borderRadius:40,
-//         padding:7,
-//         position:'absolute',
-//         top:10,
-//         right:10,
-//         zIndex:1000,
-//         justifyContent:'center',
-//         alignItems:'center'
-//     }
-// })
-
-const [products,setProducts] = useState([]);
-
-const getAPi = () => {
-    return fetch('https://65d0f0e8ab7beba3d5e3ec3a.mockapi.io/products').
-    then((response)=>response.json())
-    .then((data)=>setProducts(data))
-    .catch(err=>console.log(err))
-}
-
-useEffect(()=>{
-    getAPi();
-},[]
-)
 
     return(
 
@@ -115,16 +47,16 @@ useEffect(()=>{
                 renderItem={({item}:any)=> 
                 
             <View style={styles.item}>
-
-                <Image source={{uri:item.imageUrl}} style={styles.box} />
+                <TouchableOpacity onPress={() => navigation.navigate("Detail", {product: item.id })}>  
+                <Image source={{uri:item.image}} style={styles.box} />
                 
                 <View style={styles.dess}>
                     <Text style = {{color:'#000', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold'}}>🌷 {item.name}</Text>
                     <Text style = {{color:'#000', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold'}}>$ {item.price}💸</Text>
                 </View>
-
+                </TouchableOpacity>
                 </View>
-           
+               
             }/>
             
         </View>
@@ -132,8 +64,8 @@ useEffect(()=>{
         </>
     
     )
-}
 
+        }
 
 
 const styles = StyleSheet.create({

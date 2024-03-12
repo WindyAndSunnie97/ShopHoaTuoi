@@ -1,15 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackgoundScreen from "../components/BackgoundScreen";
-import Icon from 'react-native-vector-icons/Ionicons';
-
-const LoginScreen =() =>{
+import Icons from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+const LoginScreen =({navigation}:any) =>{
+        const [accountName, setAccountName] = useState("");
+        const [password, setPassword] = useState("");
+    
+        const handleLogin = async () => {
+            try {
+                const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { accountName, password });
+                // Xử lý phản hồi từ API ở đây
+                console.log(response.data);
+            } catch (error) {
+                console.log("Error:", error);
+                Alert.alert("Failed to login. Please try again later.");
+            }
+        };
     return(
 
         <SafeAreaView style = {styles.container}>
             
             <StatusBar backgroundColor={'#ffffff'} barStyle={"dark-content"}></StatusBar>
+            <Icons name="arrow-undo" style={styles.icones} onPress={() => navigation.goBack()} />
             <View style={styles.title}>
+            
                 <Text style={{fontWeight:'bold',fontSize:40, color:'#8B1C62'}} >Login</Text>
                 <Text style={{paddingTop:10}}>By signing in you are argeeing</Text>
                 <Text>Our</Text> 
@@ -18,13 +33,13 @@ const LoginScreen =() =>{
             <View style={styles.form}>
                 <View style={styles.group}>
                 
-                 <Icon name="person" style={styles.icon} />
-                    <TextInput placeholder="Account Name" style ={styles.ip}></TextInput>
+                 <Icons name="person" style={styles.icon} />
+                    <TextInput placeholder="Account Name" style ={styles.ip} onChangeText={text => setAccountName(text)} value={accountName}></TextInput>
                 </View>
 
                 <View style={styles.group}>
-                 <Icon name="lock-closed" style={styles.icon} /> 
-                    <TextInput placeholder="Password" style ={styles.ip} secureTextEntry={true}></TextInput>
+                 <Icons name="lock-closed" style={styles.icon} /> 
+                    <TextInput placeholder="Password" style ={styles.ip} secureTextEntry={true} onChangeText={text => setPassword(text)}value={password}></TextInput>
                </View>
 
                <View style={styles.group1}>
@@ -33,7 +48,7 @@ const LoginScreen =() =>{
 
             <View>
                 <TouchableOpacity style={styles.btn}>
-                    <Text style={{color:'#FFFFFF',fontWeight:'bold'}}>Login</Text>
+                    <Text style={{color:'#FFFFFF',fontWeight:'bold'}} onPress={handleLogin}>Login</Text>
                 </TouchableOpacity>
             </View>
             </View>
@@ -54,6 +69,11 @@ const styles = StyleSheet.create({
     title:{
         marginTop:30,
         alignItems:'center'
+    },
+    icones: {
+        fontSize: 30,
+        marginBottom: -45,
+        padding: 10
     },
     form:{
         marginTop:30,

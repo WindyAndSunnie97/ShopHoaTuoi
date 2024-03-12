@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, View, ViewComponent } from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, ViewComponent } from "react-native";
 import TitleBar from "../components/TitleBar";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import BackgoundScreen from "../components/BackgoundScreen";
 import BackgroundProduct from "../components/BackgroundProduct";
+import axios from "axios";
+import Icon from "react-native-vector-icons/Ionicons";
+const Product = ({ navigation }:any) => {
+    const [products, setProducts] = useState([]);
 
-const Product =() =>{
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const response = await fetch('http://10.0.2.2:3000/api/Flowershop/product');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-
-const [products,setProducts] = useState([]);
-
-const getAPi = () => {
-    return fetch('https://65d0f0e8ab7beba3d5e3ec3a.mockapi.io/products').
-    then((response)=>response.json())
-    .then((data)=>setProducts(data))
-    .catch(err=>console.log(err))
-}
-
-useEffect(()=>{
-    getAPi();
-},[]
-)
-
+        getProducts();
+    }, []);
     return(
 
         <>
         
 <BackgroundProduct>
     <ScrollView>
+    <Icon name="arrow-undo" style={styles.icones} onPress={() => navigation.goBack()} />
 <View style={styles.header}>
-                <Text style={{color:'pink',textAlign:'center',fontSize:20}}>Flowers 🌸🌸🌸</Text>
+                <Text style={{color:'pink',textAlign:'center',fontSize:20}}>🌸🌸Flowers 🌸🌸</Text>
             </View>
         <View style={styles.container}>
             
@@ -40,18 +44,19 @@ useEffect(()=>{
             numColumns={2}
             columnWrapperStyle={styles.row}
                 renderItem={({item}:any)=> 
+              
                 
             <View style={styles.item}>
-
-                <Image source={{uri:item.imageUrl}} style={styles.box} />
+                <TouchableOpacity onPress={() => navigation.navigate("Detail", {products: item.id })}>
+                <Image source={{uri:item.image}} style={styles.box} />
                 
                 <View style={styles.dess}>
                     <Text style = {{color:'#000', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold'}}>🌷 {item.name}</Text>
                     <Text style = {{color:'#000', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold'}}>$ {item.price}💸</Text>
                 </View>
-
+                </TouchableOpacity>
                 </View>
-           
+               
             }/>
             
         </View>
@@ -71,6 +76,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
 
         
+    },
+    icones: {
+        fontSize: 30,
+        marginBottom: -45,
+        padding: 10
     },
     header:{
 width:250,
@@ -136,9 +146,6 @@ textAlign:'center'
           alignItems:'center',
           marginTop:5,
           borderRadius:10
-
-
-
     }
 })
 

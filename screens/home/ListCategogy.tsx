@@ -1,25 +1,18 @@
 import React,  { useEffect, useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import TitleBar from "../components/TitleBar";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-const ListCategogy = () =>{
 
-// const listCate =[
-//     {id: 1, name: 'Rose'},
-//     {id: 2, name: 'Tulip'},
-//     {id: 3, name: 'Jamine'},
-//     {id: 4, name: 'Convallaria majalis'},
-//     {id: 5, name: 'Iris'},
-//     {id: 6, name: 'Paeonia'},
-//     {id: 7, name: 'Lycoris'},
-//     {id: 8, name: 'Wisteria sinensis'},
-// ]
+
+const ListCategogy = ({navigation}:any) =>{
+  
 
 const [products,setProducts] = useState([]);
 
 const getAPi = () => {
-    return fetch('https://65d0f0e8ab7beba3d5e3ec3a.mockapi.io/products').
-    then((response)=>response.json())
+    return fetch('http://10.0.2.2:3000/api/Flowershop/categories')
+    .then((response)=>response.json())
     .then((data)=>setProducts(data))
     .catch(err=>console.log(err))
 }
@@ -33,23 +26,24 @@ useEffect(()=>{
         <>
         
         <TitleBar tile="Categogy"/> 
-        <ScrollView horizontal showsHorizontalScrollIndicator = {false} style ={styles.cate}>
         <View style={styles.container}>
 
             <FlatList
+            horizontal
             data={products}
-                renderItem={({item}:any)=>   
+                renderItem={({item}:any)=> 
+                <TouchableOpacity onPress={() => navigation.navigate("CatPro", { category: item.id })} >  
             <View style={styles.item}>
-
-                <Image source={{uri:item.imageUrl}} style={styles.img} />
-                
+           
+                <Image source={{uri:item.image}} style={styles.img} />
+               
                 <View style={styles.dess}>
-                    <Text style = {{color:'pink', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold', marginTop:-40}}>🌷 {item.name}</Text>
+                    <Text style = {{color:'pink', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold', marginTop:-40}}>{item.name}🌷</Text>
                 </View>
         </View>
+        </TouchableOpacity>
                 }/>
         </View>
-        </ScrollView>
         </>
     )
 }
@@ -61,12 +55,13 @@ const styles = StyleSheet.create({
     },
     container:{
         width:'100%',
+        height:320,
        padding:15,
        paddingLeft:10
     },
     item:{
-        width:'100%',
-        height:150,
+        width:120,
+        height:180,
         padding:1,
         borderRadius: 10,
         borderWidth:3,
@@ -75,12 +70,13 @@ const styles = StyleSheet.create({
         marginBottom:15
     },
     img:{
-        width:'100%',
+        width:120,
         height:'100%',
         borderRadius:10
     },
     dess:{
 
+marginTop:30,
 
     }
 })

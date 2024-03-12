@@ -5,6 +5,7 @@ import ListCategogy from "./ListCategogy"
 import ListProduct from "./ListProduct"
 import { useNavigation } from "@react-navigation/native"
 import Icon from 'react-native-vector-icons/Ionicons';
+import Introduce from "../components/Introduce"
 
 
 type Props ={
@@ -32,6 +33,7 @@ const HomeScreen:React.FC = () => {
       <TextInput placeholder="Search" style ={styles.text}></TextInput>
       <Icon name="search" style={styles.icon}/>
       </View>
+      <Introduce/>
       <ListCategogy />
       <ListProduct />
     </View>

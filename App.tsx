@@ -11,8 +11,10 @@ import Product from './screens/pageorther/Product';
 import Profile from './screens/pageorther/Profile';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { HomeStack } from './navigation/stacks/HomeStack';
-import { ProfileStack } from './navigation/stacks/ProfileStack';
+import { HomeStack } from './navigation/HomeStack';
+
+import ProductDetail from './screens/pageorther/ProductDetail';
+import { ProfileStack } from './navigation/ProfileStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,8 +28,8 @@ const App = () => {
         <Stack.Screen name="Product" component={Product} ></Stack.Screen>
         <Stack.Screen name="Profile" component={Profile} ></Stack.Screen>
       </Stack.Navigator> */}
-      <Tab.Navigator screenOptions={({route}) => ({
-        tabBarIcon: ({ focused, color,size}) => {
+      <Tab.Navigator screenOptions={({route}:any) => ({
+        tabBarIcon: ({ focused, color,size}:any) => {
           let iconName:string = '';
 
           if (route.name === 'Home' ) {
@@ -55,7 +57,7 @@ const App = () => {
         headerShown:false
 
       })}>
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}} ></Stack.Screen>
+        <Stack.Screen name="Home" component={HomeStack} options={{headerShown:false}} ></Stack.Screen>
         <Stack.Screen name="Product" component={Product} ></Stack.Screen>
         <Stack.Screen name="Profile" component={ProfileStack} ></Stack.Screen>
       </Tab.Navigator>
