@@ -8,7 +8,7 @@ const ListProduct = ({navigation}:any) => {
     const [products, setProducts] = useState([]);
 
     const getAPI = () => {
-        return fetch(`http://10.0.2.2:3000/api/Flowershop/product`)
+        return fetch(`http://10.0.2.2:3000/api/Flowershop/product/product`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');
@@ -47,7 +47,7 @@ const ListProduct = ({navigation}:any) => {
                 renderItem={({item}:any)=> 
                 
             <View style={styles.item}>
-                <TouchableOpacity onPress={() => navigation.navigate("Detail", {product: item.id })}>  
+                <TouchableOpacity onPress={() => navigation.navigate("StackDetail", {productId: item.id })}>  
                 <Image source={{uri:item.image}} style={styles.box} />
                 
                 <View style={styles.dess}>

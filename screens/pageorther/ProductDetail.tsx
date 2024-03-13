@@ -1,35 +1,45 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import BackgroundProduct from "../components/BackgroundProduct";
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
-const Stack = createNativeStackNavigator();
+
+interface Product {
+    id: string;
+    name: string;
+    image: string;
+    price: number;
+    description: string;
+}
 const ProductDetail = ({ navigation, route }: any) => {
     const { productId } = route.params || {};
-    const [product, setProduct] = useState<any>(null);
+    const [product, setProduct] = useState<Product[]>([]);
 
     useEffect(() => {
-        const fetchListProducts = async () => {
+        const fetchProductDetail = async () => {
             try {
-                const response = await axios.get(`http://10.0.2.2:3000/api/Flowershop/${productId}`);
-                const responseData = response.data;
-                console.log(response);
-                setProduct(responseData);
-            } catch (err) {
-                console.log("Failed to fetch...", (err));
+                const response = await axios.get(`http://10.0.2.2:3000/api/Flowershop/product/${productId}`);
+                if (!response.data) {
+                    throw new Error('Failed to fetch product details');
+                }
+                const productDetail: Product = response.data; // Assuming the response data is a single product
+                setProduct([productDetail]);
+            } catch (error) {
+                console.error(error);
             }
         };
-
-        fetchListProducts();
+    
+        fetchProductDetail();
     }, []);
 
     return (
         <BackgroundProduct>
             <View style={styles.container}>
+            <ScrollView>
                 <View style={styles.title}>
                     <Icon name="arrow-undo" style={styles.icon} onPress={() => navigation.goBack()} />
                     <View style={styles.vien}>
@@ -38,29 +48,37 @@ const ProductDetail = ({ navigation, route }: any) => {
                 </View>
                 <View style={styles.container2}>
                     <View style={styles.container1}>
+                    <FlatList
+                    scrollEnabled={false}
+                data={product}
+                renderItem={({ item }) => (
+                        <>
                         <View style={styles.item}>
-                            <Image source={{ uri: product?.image }} style={styles.box} />
-                            <View style={styles.dess}>
-                                <Text style={{ color: '#000', textAlign: 'left', paddingRight: 5, fontSize: 25, fontWeight: 'bold', fontFamily: 'Lobster', alignItems: 'center' }}>🌷{product?.name}</Text>
-                            </View>
-                            <Text style={{ color: '#000', textAlign: 'right', paddingLeft: 5, fontSize: 22, fontWeight: 'bold', paddingBottom: 15 }}>💸 {product?.price}$</Text>
+                        <Image source={{ uri: item.image }} style={styles.box} />
+                        <View style={styles.dess}>
+                            <Text style={{ color: '#000', textAlign: 'center', paddingRight: 5, fontSize: 25, fontWeight: 'bold', fontFamily: 'Lobster', alignItems: 'center' }}>🌷{item.name}</Text>
                         </View>
-                        <View style={styles.rate}>
+                        <Text style={{ color: '#000', textAlign: 'right', paddingLeft: 5, fontSize: 22, fontWeight: 'bold', paddingBottom: 15 }}>💸 {item.price}$</Text>
+                    </View><View style={styles.rate}>
                             <Icons name="flower-tulip" style={styles.icons} />
                             <Icons name="flower-tulip" style={styles.icons} />
                             <Icons name="flower-tulip" style={styles.icons} />
                             <Icons name="flower-tulip" style={styles.icons} />
                             <Icons name="flower-tulip" style={styles.icons} />
-                        </View>
-                        <View>
+                        </View><View>
                             <Text style={{ fontSize: 25, fontWeight: 'bold', fontStyle: 'italic', paddingLeft: 15 }}>Description</Text>
-                            <Text style={{ fontSize: 20, fontWeight: "500", fontStyle: 'italic', paddingLeft: 30 }}>{product?.description}</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "500", fontStyle: 'italic', paddingLeft: 30 }}>{item.description}</Text>
                         </View>
+                        </>
+                         )}
+                         />
                     </View>
                     <TouchableOpacity style={styles.btn}>
                         <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 18 }}>Add to Cart</Text>
                     </TouchableOpacity>
+                   
                 </View>
+                </ScrollView>
             </View>
         </BackgroundProduct>
     );
@@ -116,7 +134,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         padding: 15,
         width: '80%',
-        height: "37%",
+        height: 450,
         backgroundColor: '#A9EDE9',
         borderRadius: 25,
         marginTop: 15,
@@ -163,7 +181,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
     },
     btn: {
-        marginTop: 10,
+        marginTop: 15,
         backgroundColor: 'pink',
         paddingVertical: 15,
         alignItems: 'center',
@@ -171,7 +189,8 @@ const styles = StyleSheet.create({
         width: '70%',
         height: 50,
         justifyContent: 'center',
-        marginLeft: 60
+        marginLeft: 60,
+        marginBottom:20
     },
 })
 

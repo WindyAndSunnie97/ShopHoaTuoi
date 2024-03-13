@@ -6,6 +6,7 @@ import LoginScreen from "../screens/login/LoginScreen";
 import SettingScreen from "../listprofile/SettingScreen";
 import OrderManagement from "../listprofile/OrderManagement";
 import Helps from "../listprofile/Helps";
+import ProductDetail from "../screens/pageorther/ProductDetail";
 
 
 const Stack = createNativeStackNavigator();

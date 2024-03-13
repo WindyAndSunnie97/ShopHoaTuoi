@@ -15,6 +15,7 @@ import { HomeStack } from './navigation/HomeStack';
 
 import ProductDetail from './screens/pageorther/ProductDetail';
 import { ProfileStack } from './navigation/ProfileStack';
+import { ProStack } from './navigation/ProStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -58,7 +59,7 @@ const App = () => {
 
       })}>
         <Stack.Screen name="Home" component={HomeStack} options={{headerShown:false}} ></Stack.Screen>
-        <Stack.Screen name="Product" component={Product} ></Stack.Screen>
+        <Stack.Screen name="Product" component={ProStack} options={{headerShown:false}}  ></Stack.Screen>
         <Stack.Screen name="Profile" component={ProfileStack} ></Stack.Screen>
       </Tab.Navigator>
   </NavigationContainer>

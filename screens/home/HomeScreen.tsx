@@ -6,10 +6,24 @@ import ListProduct from "./ListProduct"
 import { useNavigation } from "@react-navigation/native"
 import Icon from 'react-native-vector-icons/Ionicons';
 import Introduce from "../components/Introduce"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import ProductDetail from "../pageorther/ProductDetail"
+import CategoryProducts from "../pageorther/CategoryProducts"
 
 
 type Props ={
   title:string,
+}
+
+const Stack = createNativeStackNavigator();
+export const StackDetail = () => {
+  return (
+      <Stack.Navigator>
+          <Stack.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Stack.Screen> 
+          <Stack.Screen name = 'CatPro' component={CategoryProducts}></Stack.Screen> 
+    </Stack.Navigator>
+     
+  )
 }
 
 const Title = ({title}:Props) => {
