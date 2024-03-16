@@ -8,7 +8,7 @@ interface BackgroundScreenProps {
 const BackgoundScreen: React.FC<BackgroundScreenProps> = ({ children }) => {
     return (
         <View style={styles.container}>
-            <ImageBackground source={require('../../assets/images/hỏtuliphong.jpg')} style={styles.imageBackground}>
+            <ImageBackground source={require('../../assets/images/white.jpg')} style={styles.imageBackground}>
                 {children}
             </ImageBackground>
         </View>

@@ -3,12 +3,23 @@ import { FlatList, Image, StyleSheet, Text, View, ViewComponent } from "react-na
 import TitleBar from "../components/TitleBar";
 import { TouchableOpacity } from "react-native";
 import BackgroundProduct from "../components/BackgroundProduct";
+import ProductDetail from "../pageorther/ProductDetail";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
+export const StackDetail = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Stack.Screen> 
+      </Stack.Navigator>
+       
+    )
+}
 const ListProduct = ({navigation}:any) => {
     const [products, setProducts] = useState([]);
 
     const getAPI = () => {
-        return fetch(`http://10.0.2.2:3000/api/Flowershop/product/product`)
+        return fetch(`http://10.0.2.2:3000/api/Flowershop/product`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');

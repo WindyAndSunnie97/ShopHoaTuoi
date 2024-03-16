@@ -56,7 +56,7 @@ const ProductDetail = ({ navigation, route }: any) => {
                         <View style={styles.item}>
                         <Image source={{ uri: item.image }} style={styles.box} />
                         <View style={styles.dess}>
-                            <Text style={{ color: '#000', textAlign: 'center', paddingRight: 5, fontSize: 25, fontWeight: 'bold', fontFamily: 'Lobster', alignItems: 'center' }}>🌷{item.name}</Text>
+                            <Text style={{ color: '#000', textAlign: 'center', paddingRight: 5, fontSize: 25, fontWeight: 'bold', alignItems: 'center' }}>🌷{item.name}</Text>
                         </View>
                         <Text style={{ color: '#000', textAlign: 'right', paddingLeft: 5, fontSize: 22, fontWeight: 'bold', paddingBottom: 15 }}>💸 {item.price}$</Text>
                     </View><View style={styles.rate}>

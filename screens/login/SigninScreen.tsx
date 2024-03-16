@@ -33,6 +33,7 @@ const SigninScreen = ({navigation}:any) => {
         setName("");
         setEmail("");
         setPassword("");
+        navigation.navigate("Login");
       })
       .catch((error) => {
         Alert.alert(
@@ -48,7 +49,7 @@ const SigninScreen = ({navigation}:any) => {
             <StatusBar backgroundColor={'#ffffff'} barStyle={"dark-content"} />
             <Icons name="arrow-undo" style={styles.icones} onPress={() => navigation.goBack()} />
             <View style={styles.title}>
-                <Text style={{ fontWeight: 'bold', fontSize: 40, color: '#8B1C62' }} >Signin</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 40, color: '#8B1C62' }} >Register</Text>
                 <Text style={{ paddingTop: 10 }}>By signing in you are argeeing</Text>
                 <Text>Our</Text>
                 <TouchableOpacity onPress={() => Alert.alert('okookokokok')}><Text style={{ color: 'blue' }}>Term and privacy</Text></TouchableOpacity>
@@ -98,7 +99,7 @@ const SigninScreen = ({navigation}:any) => {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.btn} onPress={() => handleRegister()}>
-                        <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Singin</Text>
+                        <Text style={{ color: '#FFFFFF', fontWeight: 'bold' }}>Register</Text>
                     </TouchableOpacity>
                 </View>
             </View>

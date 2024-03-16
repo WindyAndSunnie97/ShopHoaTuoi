@@ -13,7 +13,7 @@ const Product = ({ navigation }:any) => {
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const response = await fetch(`http://10.0.2.2:3000/api/Flowershop/product/product`);
+                const response = await fetch(`http://10.0.2.2:3000/api/Flowershop/product`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');
                 }
@@ -47,7 +47,7 @@ const Product = ({ navigation }:any) => {
               
                 
             <View style={styles.item}>
-                <TouchableOpacity onPress={() => navigation.navigate("Detail", {productId: item.id })}>
+                <TouchableOpacity onPress={() => navigation.navigate("Detail", {productId: item._id })}>
                 <Image source={{uri:item.image}} style={styles.box} />
                 
                 <View style={styles.dess}>

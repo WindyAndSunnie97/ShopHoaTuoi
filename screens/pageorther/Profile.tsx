@@ -10,7 +10,9 @@ const Profile = ({ navigation }: any) => {
       <View style={styles.bar}>
         <Icon name="settings" style={styles.icones} />
         <Icon name="mail" style={styles.icones} />
+        <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
         <Icon name="cart" style={styles.icones} />
+        </TouchableOpacity>
       </View>
 
       <Image source={require('../../assets/images/pro3.jpg')} style={{ width: '100%', height: 200, borderBottomLeftRadius: 30, borderBottomRightRadius: 30 }} />
@@ -22,7 +24,7 @@ const Profile = ({ navigation }: any) => {
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 30, width: '100%' }}>
         <TouchableOpacity style={{ padding: 15, backgroundColor: 'pink', borderRadius: 30, width: 120, alignItems: 'center' }} onPress={() => navigation.navigate("Signin")}>
-          <Text style={{ fontSize: 20, fontStyle: 'italic' }}>Signin</Text>
+          <Text style={{ fontSize: 20, fontStyle: 'italic' }}>Register</Text>
         </TouchableOpacity>
         <Text style={styles.or}>🌷&🌷</Text>
         <TouchableOpacity style={{ padding: 15, backgroundColor: 'pink', borderRadius: 30, width: 120, alignItems: 'center' }} onPress={() => navigation.navigate("Login")}>

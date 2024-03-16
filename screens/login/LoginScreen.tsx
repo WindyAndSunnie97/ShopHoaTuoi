@@ -3,20 +3,43 @@ import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, Tou
 import BackgoundScreen from "../components/BackgoundScreen";
 import Icons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
-const LoginScreen =({navigation}:any) =>{
-        const [accountName, setAccountName] = useState("");
-        const [password, setPassword] = useState("");
+// const LoginScreen =({navigation}:any) =>{
+//         const [accountName, setAccountName] = useState("");
+//         const [password, setPassword] = useState("");
     
-        const handleLogin = async () => {
-            try {
-                const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { accountName, password });
-                // Xử lý phản hồi từ API ở đây
-                console.log(response.data);
-            } catch (error) {
-                console.log("Error:", error);
-                Alert.alert("Failed to login. Please try again later.");
-            }
-        };
+//         const handleLogin = async () => {
+//             try {
+//                 const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { accountName, password });
+//                 // Xử lý phản hồi từ API ở đây
+//                 console.log(response.data);
+//             } catch (error) {
+//                 console.log("Error:", error);
+//                 Alert.alert("Failed to login. Please try again later.");
+//             }
+//         };
+
+const LoginScreen = ({ navigation }: any) => {
+    const [accountName, setAccountName] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLogin = async () => {
+        if (!accountName || !password) {
+            Alert.alert("Please enter both account name and password.");
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { accountName, password });
+            // Xử lý phản hồi từ API ở đây
+            console.log(response.data);
+            // Chuyển hướng đến màn hình khác sau khi đăng nhập thành công
+            navigation.navigate("HomeScreen");
+        } catch (error) {
+            console.log("Error:", error);
+            Alert.alert("Failed to login. Please try again later.");
+        }
+    };
+
     return(
 
         <SafeAreaView style = {styles.container}>
@@ -47,8 +70,8 @@ const LoginScreen =({navigation}:any) =>{
             </View>
 
             <View>
-                <TouchableOpacity style={styles.btn}>
-                    <Text style={{color:'#FFFFFF',fontWeight:'bold'}} onPress={handleLogin}>Login</Text>
+                <TouchableOpacity style={styles.btn}onPress={() => handleLogin()}>
+                    <Text style={{color:'#FFFFFF',fontWeight:'bold'}} >Login</Text>
                 </TouchableOpacity>
             </View>
             </View>

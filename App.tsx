@@ -1,5 +1,5 @@
 // Trong file App.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import HomeScreen from './screens/home/HomeScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import WelcomeScreen from './screens/login/WelcomeScreen';
@@ -16,19 +16,22 @@ import { HomeStack } from './navigation/HomeStack';
 import ProductDetail from './screens/pageorther/ProductDetail';
 import { ProfileStack } from './navigation/ProfileStack';
 import { ProStack } from './navigation/ProStack';
+import SplashScreen from 'react-native-splash-screen';
+import CategoryProducts from './screens/pageorther/CategoryProducts';
+
+
 
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
   <NavigationContainer>
-    {/* <Stack.Navigator>
-        <Stack.Screen name="Home" component={TabNavigator} options={{headerShown:false}} ></Stack.Screen>
-        <Stack.Screen name="Product" component={Product} ></Stack.Screen>
-        <Stack.Screen name="Profile" component={Profile} ></Stack.Screen>
-      </Stack.Navigator> */}
+    
       <Tab.Navigator screenOptions={({route}:any) => ({
         tabBarIcon: ({ focused, color,size}:any) => {
           let iconName:string = '';
@@ -58,11 +61,14 @@ const App = () => {
         headerShown:false
 
       })}>
-        <Stack.Screen name="Home" component={HomeStack} options={{headerShown:false}} ></Stack.Screen>
-        <Stack.Screen name="Product" component={ProStack} options={{headerShown:false}}  ></Stack.Screen>
-        <Stack.Screen name="Profile" component={ProfileStack} ></Stack.Screen>
+        <Tab.Screen name="Home" component={HomeStack} options={{headerShown:false}} ></Tab.Screen>
+        <Tab.Screen name="Product" component={ProStack} options={{headerShown:false}}  ></Tab.Screen>
+        <Tab.Screen name="Profile" component={ProfileStack} ></Tab.Screen>
       </Tab.Navigator>
   </NavigationContainer>
    );
 }
 export { App };
+
+
+

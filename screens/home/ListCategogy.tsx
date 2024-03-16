@@ -1,12 +1,23 @@
 import React,  { useEffect, useState } from "react";
 import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import TitleBar from "../components/TitleBar";
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import ProductDetail from "../pageorther/ProductDetail";
+import CategoryProducts from "../pageorther/CategoryProducts";
 
 
-
-const ListCategogy = ({navigation}:any) =>{
-  
+const Stack = createNativeStackNavigator();
+export const StackDetail = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name = 'CatPro' component={CategoryProducts}></Stack.Screen> 
+      </Stack.Navigator>
+       
+    )
+}
+const ListCategogy = () =>{
+  const navigation = useNavigation();
 
 const [products,setProducts] = useState([]);
 
@@ -32,13 +43,13 @@ useEffect(()=>{
             horizontal
             data={products}
                 renderItem={({item}:any)=> 
-                <TouchableOpacity onPress={() => navigation.navigate("CatPro", { category: item.id })} >  
+                <TouchableOpacity onPress={() => navigation.dispatch(CommonActions.navigate("CatPro", { category: item.category }) )} >  
             <View style={styles.item}>
            
                 <Image source={{uri:item.image}} style={styles.img} />
                
                 <View style={styles.dess}>
-                    <Text style = {{color:'pink', textAlign:'left',paddingLeft:5,fontSize:20,fontWeight:'bold', marginTop:-40}}>{item.name}🌷</Text>
+                    <Text style = {styles.text}>💮{item.name}</Text>
                 </View>
         </View>
         </TouchableOpacity>
@@ -55,29 +66,55 @@ const styles = StyleSheet.create({
     },
     container:{
         width:'100%',
-        height:320,
+        height:300,
        padding:15,
        paddingLeft:10
     },
     item:{
-        width:120,
-        height:180,
-        padding:1,
-        borderRadius: 10,
-        borderWidth:3,
-        borderColor:'#A9EDE9',
+        width:280,
+        height:220,
+        borderRadius: 20,
+        //borderWidth:3,
+        //borderColor:'#A9EDE9',
         marginRight:10,
-        marginBottom:15
+        marginLeft:20,
+        marginBottom:15,
+        flexDirection:'column-reverse',
+        backgroundColor:'rgba(255, 215, 0,0.3)'
+
     },
     img:{
-        width:120,
-        height:'100%',
-        borderRadius:10
+        width:'80%',
+        height:150,
+        borderRadius:10,
+        marginRight:10,
+        marginLeft:25,
+        marginBottom:10
+       
+       
     },
     dess:{
 
-marginTop:30,
+width:'100%',
+height:'70%',
+backgroundColor: 'rgba(173, 216, 220, 1)',
+borderRadius: 10,
+marginBottom:-10,
+borderBottomLeftRadius:33,
+borderBottomRightRadius:33,
+
+    },
+    text:{
+        color:'brown',
+        fontSize:25,
+        fontWeight:'bold',
+        width:'100%',
+        height:'100%',
+        alignItems:'center',
+        textAlign:'center',
+        marginTop:95
 
     }
 })
 export default ListCategogy;
+//{{color:'black',textAlign:'center',marginBottom:-85,fontSize:22,fontWeight:'bold',width:'100%',height:'100%',}}

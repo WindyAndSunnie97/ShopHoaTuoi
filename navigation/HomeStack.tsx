@@ -12,8 +12,9 @@ export const HomeStack = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name = 'HomeScreen' component={HomeScreen} options={{headerShown:false}}></Stack.Screen>
-            {/* <Stack.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Stack.Screen>  */}
-            <Stack.Screen name = 'Stackdetail' component={StackDetail} options={{headerShown:false}}></Stack.Screen> 
+             <Stack.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Stack.Screen>
+            {/* <Stack.Screen name = 'Stackdetail' component={StackDetail} options={{headerShown:false}}></Stack.Screen>  */} 
+            <Stack.Screen name = 'CatPro' component={CategoryProducts}></Stack.Screen> 
         </Stack.Navigator>
     )
 }

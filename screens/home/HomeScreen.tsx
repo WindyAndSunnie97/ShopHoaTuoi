@@ -9,30 +9,22 @@ import Introduce from "../components/Introduce"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import ProductDetail from "../pageorther/ProductDetail"
 import CategoryProducts from "../pageorther/CategoryProducts"
+import BackgoundScreen from "../components/BackgoundScreen"
 
 
 type Props ={
   title:string,
 }
 
-const Stack = createNativeStackNavigator();
-export const StackDetail = () => {
-  return (
-      <Stack.Navigator>
-          <Stack.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Stack.Screen> 
-          <Stack.Screen name = 'CatPro' component={CategoryProducts}></Stack.Screen> 
-    </Stack.Navigator>
-     
-  )
-}
-
 const Title = ({title}:Props) => {
   return(
     <>
+    <BackgoundScreen>
     <View style ={{flexDirection:'row',justifyContent:'space-between'}}>
       <Text style={{fontWeight:'bold', color:'pink', textTransform:'uppercase'}}>{title}</Text>
       <TouchableOpacity><Text> More...</Text></TouchableOpacity>
     </View>
+    </BackgoundScreen>
     </>
   )
 }
@@ -41,7 +33,7 @@ const HomeScreen:React.FC = () => {
   const navigation = useNavigation();
   return (
     <ScrollView>
-    <View style={{ paddingHorizontal: 15 }}>
+    <View style={{ paddingHorizontal: 10 }}>
       <Header />
       <View style={styles.seach}>
       <TextInput placeholder="Search" style ={styles.text}></TextInput>

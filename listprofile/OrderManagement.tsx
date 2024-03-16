@@ -1,54 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 
+// Định nghĩa interface cho cấu trúc của một đơn hàng
 interface Order {
-  _id: string;
+  id: number;
   customerName: string;
   product: string;
-  price: number;
-  status: string;
+  quantity: number;
+  total: number;
 }
 
-const OrderManagement: React.FC = () => {
+const OrderManagementScreen: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
+  // Giả lập dữ liệu đơn hàng
   useEffect(() => {
-    axios.get<Order[]>('/api/Flowershop/orders')
-      .then(response => {
-        setOrders(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    const fakeOrders: Order[] = [
+      { id: 1, customerName: 'Nguyễn Văn A', product: 'Sản phẩm A', quantity: 2, total: 200000 },
+      { id: 2, customerName: 'Trần Thị B', product: 'Sản phẩm B', quantity: 1, total: 50000 },
+      { id: 3, customerName: 'Lê Văn C', product: 'Sản phẩm C', quantity: 3, total: 300000 }
+    ];
+    setOrders(fakeOrders);
   }, []);
 
-  return (
-    <div>
-      <h2>Quản lý đơn hàng</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tên Khách hàng</th>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Trạng thái</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map(order => (
-            <tr key={order._id}>
-              <td>{order._id}</td>
-              <td>{order.customerName}</td>
-              <td>{order.product}</td>
-              <td>{order.price}</td>
-              <td>{order.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+  // Render một dòng cho mỗi đơn hàng
+  const renderOrderItem = ({ item }: { item: Order }) => (
+    <View style={styles.orderItem}>
+      <Text>Mã đơn hàng: {item.id}</Text>
+      <Text>Tên khách hàng: {item.customerName}</Text>
+      <Text>Sản phẩm: {item.product}</Text>
+      <Text>Số lượng: {item.quantity}</Text>
+      <Text>Tổng tiền: {item.total}</Text>
+    </View>
   );
-}
 
-export default OrderManagement;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Quản lý đơn hàng</Text>
+      <FlatList
+        data={orders}
+        renderItem={renderOrderItem}
+        keyExtractor={item => item.id.toString()}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  orderItem: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 10,
+  },
+});
+
+export default OrderManagementScreen;

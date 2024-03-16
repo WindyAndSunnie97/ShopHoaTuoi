@@ -7,6 +7,7 @@ import SettingScreen from "../listprofile/SettingScreen";
 import OrderManagement from "../listprofile/OrderManagement";
 import Helps from "../listprofile/Helps";
 import ProductDetail from "../screens/pageorther/ProductDetail";
+import Cart from "../cart/Cart";
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ export const ProfileStack = ()=> {
             <Stack.Screen name="Setting" component={SettingScreen} options={{headerShown:false}} ></Stack.Screen>
             <Stack.Screen name="OrderManagement" component={OrderManagement} options={{headerShown:false}} ></Stack.Screen>
             <Stack.Screen name="Helps" component={Helps} options={{headerShown:false}} ></Stack.Screen>
+            <Stack.Screen name="Cart" component={Cart} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>  
     )
 }
