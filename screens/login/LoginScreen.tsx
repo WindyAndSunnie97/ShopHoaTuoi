@@ -3,37 +3,30 @@ import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, Tou
 import BackgoundScreen from "../components/BackgoundScreen";
 import Icons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
-// const LoginScreen =({navigation}:any) =>{
-//         const [accountName, setAccountName] = useState("");
-//         const [password, setPassword] = useState("");
-    
-//         const handleLogin = async () => {
-//             try {
-//                 const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { accountName, password });
-//                 // Xử lý phản hồi từ API ở đây
-//                 console.log(response.data);
-//             } catch (error) {
-//                 console.log("Error:", error);
-//                 Alert.alert("Failed to login. Please try again later.");
-//             }
-//         };
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/RootState";
+
 
 const LoginScreen = ({ navigation }: any) => {
-    const [accountName, setAccountName] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const dispath = useDispatch()
+    const data = useSelector((state: RootState) => state.login);
+    if (data.isAuth) {
+        navigation.replace("HomeScreen")
+    }
     const handleLogin = async () => {
-        if (!accountName || !password) {
-            Alert.alert("Please enter both account name and password.");
+        if (!email || !password) {
+            Alert.alert("Please enter both email and password.");
             return;
         }
 
         try {
-            const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { accountName, password });
+            const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { email, password });
             // Xử lý phản hồi từ API ở đây
             console.log(response.data);
             // Chuyển hướng đến màn hình khác sau khi đăng nhập thành công
-            navigation.navigate("HomeScreen");
+            navigation.navigate("HomeScreen", { userEmail: email });
         } catch (error) {
             console.log("Error:", error);
             Alert.alert("Failed to login. Please try again later.");
@@ -57,7 +50,7 @@ const LoginScreen = ({ navigation }: any) => {
                 <View style={styles.group}>
                 
                  <Icons name="person" style={styles.icon} />
-                    <TextInput placeholder="Account Name" style ={styles.ip} onChangeText={text => setAccountName(text)} value={accountName}></TextInput>
+                    <TextInput placeholder="Email" style ={styles.ip} onChangeText={text => setEmail(text)} value={email}></TextInput>
                 </View>
 
                 <View style={styles.group}>

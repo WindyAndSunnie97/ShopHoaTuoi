@@ -1,11 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import BackgroundProduct from "../components/BackgroundProduct";
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/CartReducer";
+
 
 
 interface Product {
@@ -14,8 +17,14 @@ interface Product {
     image: string;
     price: number;
     description: string;
+    quantity:1
 }
 const ProductDetail = ({ navigation, route }: any) => {
+    const dispatch = useDispatch();
+    const handleAddToCart = () => {
+        dispatch(addToCart(product[0])); // Lấy phần tử đầu tiên của mảng product
+        navigation.navigate('Cart', { productId: product[0].id }); // Lấy id của sản phẩm đầu tiên
+    };
     const { productId } = route.params || {};
     const [product, setProduct] = useState<Product[]>([]);
 
@@ -35,6 +44,7 @@ const ProductDetail = ({ navigation, route }: any) => {
     
         fetchProductDetail();
     }, []);
+
 
     return (
         <BackgroundProduct>
@@ -70,12 +80,13 @@ const ProductDetail = ({ navigation, route }: any) => {
                             <Text style={{ fontSize: 20, fontWeight: "500", fontStyle: 'italic', paddingLeft: 30 }}>{item.description}</Text>
                         </View>
                         </>
-                         )}
+
+)}
                          />
                     </View>
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 18 }}>Add to Cart</Text>
-                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={() => handleAddToCart}>
+    <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 18 }}>Add to Cart</Text>
+</TouchableOpacity>
                    
                 </View>
                 </ScrollView>

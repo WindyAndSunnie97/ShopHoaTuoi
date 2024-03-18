@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import Header from "../components/Header"
 import ListCategogy from "./ListCategogy"
@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native"
 import Icon from 'react-native-vector-icons/Ionicons';
 import Introduce from "../components/Introduce"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import ProductDetail from "../pageorther/ProductDetail"
+import ProductDetail from "../pageorther/ProductDetail.tsx"
 import CategoryProducts from "../pageorther/CategoryProducts"
 import BackgoundScreen from "../components/BackgoundScreen"
 
@@ -30,13 +30,24 @@ const Title = ({title}:Props) => {
 }
 
 const HomeScreen:React.FC = () => { 
+  const [searchValue, setSearchValue] = useState('');
+
+    const handleSearch = () => {
+        // Thực hiện xử lý tìm kiếm dựa trên giá trị searchValue
+        console.log('Searching for:', searchValue);
+
+        // Sau khi xử lý tìm kiếm, xóa giá trị trong Input
+        setSearchValue('');
+    };
+  const email = "example@example.com";
   const navigation = useNavigation();
   return (
     <ScrollView>
     <View style={{ paddingHorizontal: 10 }}>
-      <Header />
+      <Header email={email}/>
       <View style={styles.seach}>
-      <TextInput placeholder="Search" style ={styles.text}></TextInput>
+      <TextInput placeholder="Search" style ={styles.text}  onChangeText={(text) => setSearchValue(text)}
+    onSubmitEditing={handleSearch}></TextInput>
       <Icon name="search" style={styles.icon}/>
       </View>
       <Introduce/>

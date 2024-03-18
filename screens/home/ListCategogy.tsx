@@ -3,7 +3,7 @@ import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View }
 import TitleBar from "../components/TitleBar";
 import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ProductDetail from "../pageorther/ProductDetail";
+import ProductDetail from "../pageorther/ProductDetail.tsx";
 import CategoryProducts from "../pageorther/CategoryProducts";
 
 

@@ -5,7 +5,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import CategoryProducts from "../screens/pageorther/CategoryProducts";
 import ListCategogy from "../screens/home/ListCategogy";
-import ProductDetail from "../screens/pageorther/ProductDetail";
+import ProductDetail from "../screens/pageorther/ProductDetail.tsx";
 
 
 const Stack = createNativeStackNavigator();

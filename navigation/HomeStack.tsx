@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/home/HomeScreen";
 import React from "react";
 import CategoryProducts from "../screens/pageorther/CategoryProducts";
-import ProductDetail from "../screens/pageorther/ProductDetail";
+import ProductDetail from "../screens/pageorther/ProductDetail.tsx";
 import StackDetail from "./StackDetail";
 import ListProduct from "../screens/home/ListProduct";
 import ListCategogy from "../screens/home/ListCategogy";

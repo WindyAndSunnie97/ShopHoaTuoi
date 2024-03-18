@@ -1,5 +1,6 @@
-// Trong file App.js
 import React, { useEffect } from 'react';
+import { Provider } from 'react-redux'; // Import Provider
+
 import HomeScreen from './screens/home/HomeScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import WelcomeScreen from './screens/login/WelcomeScreen';
@@ -18,7 +19,8 @@ import { ProfileStack } from './navigation/ProfileStack';
 import { ProStack } from './navigation/ProStack';
 import SplashScreen from 'react-native-splash-screen';
 import CategoryProducts from './screens/pageorther/CategoryProducts';
-
+import store from './store';
+import { StackNavigator } from './navigation/StackNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -29,46 +31,10 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
-  return (
-  <NavigationContainer>
-    
-      <Tab.Navigator screenOptions={({route}:any) => ({
-        tabBarIcon: ({ focused, color,size}:any) => {
-          let iconName:string = '';
 
-          if (route.name === 'Home' ) {
-            iconName = focused 
-            ? 'home'
-            : 'home-outline';
-
-          }
-          else if (route.name === 'Product') {
-            iconName = focused
-            ? 'flower'
-            : 'flower-outline';
-          }
-          else if (route.name === 'Profile') {
-            iconName = focused
-            ? 'person'
-            : 'person-outline';
-          }
-
-
-          return <Ionicons name={iconName} size={size} color={color}/>        
-        },
-        tabBarActiveTintColor: 'pink',
-        tabBarInactiveTintColor: 'black',
-        headerShown:false
-
-      })}>
-        <Tab.Screen name="Home" component={HomeStack} options={{headerShown:false}} ></Tab.Screen>
-        <Tab.Screen name="Product" component={ProStack} options={{headerShown:false}}  ></Tab.Screen>
-        <Tab.Screen name="Profile" component={ProfileStack} ></Tab.Screen>
-      </Tab.Navigator>
-  </NavigationContainer>
-   );
-}
-export { App };
-
-
-
+  return(
+    <Provider store={store}>
+<StackNavigator/>
+    </Provider>
+  )}
+export {App};

@@ -3,8 +3,9 @@ import { FlatList, Image, StyleSheet, Text, View, ViewComponent } from "react-na
 import TitleBar from "../components/TitleBar";
 import { TouchableOpacity } from "react-native";
 import BackgroundProduct from "../components/BackgroundProduct";
-import ProductDetail from "../pageorther/ProductDetail";
+import ProductDetail from "../pageorther/ProductDetail.tsx";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 export const StackDetail = () => {
@@ -15,7 +16,8 @@ export const StackDetail = () => {
        
     )
 }
-const ListProduct = ({navigation}:any) => {
+const ListProduct = () => {
+    const navigation = useNavigation();
     const [products, setProducts] = useState([]);
 
     const getAPI = () => {
@@ -58,7 +60,7 @@ const ListProduct = ({navigation}:any) => {
                 renderItem={({item}:any)=> 
                 
             <View style={styles.item}>
-                <TouchableOpacity onPress={() => navigation.navigate("StackDetail", {productId: item.id })}>  
+                <TouchableOpacity onPress={() => navigation.dispatch(CommonActions.navigate("Detail", {productId: item._id }))}>  
                 <Image source={{uri:item.image}} style={styles.box} />
                 
                 <View style={styles.dess}>

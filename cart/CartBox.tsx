@@ -1,6 +1,10 @@
 import { CartItem } from './CartItem';
 
 export class CartBox {
+    [x: string]: any;
+    increaseQuantity(id: number) {
+        throw new Error('Method not implemented.');
+    }
     items: CartItem[];
 
     constructor() {

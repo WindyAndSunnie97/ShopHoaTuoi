@@ -77,7 +77,7 @@ const CartScreen: React.FC = () => {
       <Text style={{ marginHorizontal: 10 }}>EMI details Available</Text>
 
       <Pressable
-        onPress={() => navigation.navigate("Confirm")}
+        onPress={() => navigation.navigate("Pay")}
         style={{
           backgroundColor: "#FFC72C",
           padding: 10,

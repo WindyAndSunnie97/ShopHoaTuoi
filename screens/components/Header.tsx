@@ -1,16 +1,21 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-const Header = () => {
+const Header = ({navigation}:any) => {
+
+  const handleNavigateToProfile = () => {
+    // Chuyển hướng sang màn hình ProfileScreen và truyền thông tin người dùng
+    navigation.navigate("Profile", { userEmail: email });
+  };
   return (
     <View style={styles.container}>
 
       <View >
         <Text style={styles.title}>WindyIris</Text>
       </View>
-      <View>
+      <TouchableOpacity onPress={handleNavigateToProfile}>
         <Image style={styles.logo}source={require('../../assets/images/logo.png')} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

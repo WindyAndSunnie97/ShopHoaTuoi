@@ -1,16 +1,21 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Account from './Account';
 
+const Stack = createNativeStackNavigator();
 const SettingScreen = ({navigation}:any) => {
+
+
   return (
     <View style={styles.container}>
       <View style={styles.cont1}>
     <Icon name="arrow-undo" style={styles.icones} onPress={() => navigation.goBack()} />
       <Text style={styles.title}>Settings</Text>
       </View>
-      <TouchableOpacity style={styles.settingItem}>
-        <Text style={styles.settingText}>Account</Text>
+      <TouchableOpacity style={styles.settingItem} onPress={() => navigation.navigate("Account")}>
+        <Text style={styles.settingText} >Account</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.settingItem}>
