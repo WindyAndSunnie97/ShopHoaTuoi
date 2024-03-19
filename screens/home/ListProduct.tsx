@@ -7,12 +7,12 @@ import ProductDetail from "../pageorther/ProductDetail.tsx";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 
-const Stack = createNativeStackNavigator();
+const Tab = createNativeStackNavigator();
 export const StackDetail = () => {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Stack.Screen> 
-      </Stack.Navigator>
+        <Tab.Navigator>
+            <Tab.Screen name = 'Detail' component={ProductDetail} options={{headerShown:false}}></Tab.Screen> 
+      </Tab.Navigator>
        
     )
 }

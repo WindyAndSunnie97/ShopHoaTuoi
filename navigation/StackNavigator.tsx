@@ -11,6 +11,7 @@ import { HomeStack } from './HomeStack';
 import { ProStack } from './ProStack';
 import { ProfileStack } from './ProfileStack';
 import SplashScreen from 'react-native-splash-screen';
+import Cart from '../cart/Cart';
 
 
 
@@ -43,6 +44,11 @@ const StackNavigator = () => {
             ? 'person'
             : 'person-outline';
           }
+          else if (route.name === 'Cart') {
+            iconName = focused
+            ? 'cart'
+            : 'cart-outline';
+          }
 
 
           return <Ionicons name={iconName} size={size} color={color}/>        
@@ -55,6 +61,7 @@ const StackNavigator = () => {
         <Tab.Screen name="Home" component={HomeStack} options={{headerShown:false}} ></Tab.Screen>
         <Tab.Screen name="Product" component={ProStack} options={{headerShown:false}}  ></Tab.Screen>
         <Tab.Screen name="Profile" component={ProfileStack} ></Tab.Screen>
+        <Tab.Screen name="Cart" component={Cart} options={{headerShown:false}}  ></Tab.Screen>
       </Tab.Navigator>
   </NavigationContainer>
    );

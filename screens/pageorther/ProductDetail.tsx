@@ -8,8 +8,19 @@ import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/CartReducer";
+import Cart from "../../cart/Cart";
+import { CartBox } from "../../cart/CartBox";
 
 
+const Tab = createNativeStackNavigator();
+export const StackDetail = () => {
+    return (
+        <Tab.Navigator>
+            <Tab.Screen name="Cart" component={Cart} options={{headerShown:false}} ></Tab.Screen>
+      </Tab.Navigator>
+       
+    )
+}
 
 interface Product {
     id: string;
@@ -20,11 +31,7 @@ interface Product {
     quantity:1
 }
 const ProductDetail = ({ navigation, route }: any) => {
-    const dispatch = useDispatch();
-    const handleAddToCart = () => {
-        dispatch(addToCart(product[0])); // Lấy phần tử đầu tiên của mảng product
-        navigation.navigate('Cart', { productId: product[0].id }); // Lấy id của sản phẩm đầu tiên
-    };
+    
     const { productId } = route.params || {};
     const [product, setProduct] = useState<Product[]>([]);
 
@@ -44,8 +51,17 @@ const ProductDetail = ({ navigation, route }: any) => {
     
         fetchProductDetail();
     }, []);
+    const dispatch = useDispatch();
 
-
+    const handleAddToCart = () => {
+        if (product) { // Kiểm tra xem sản phẩm đã được tải thành công chưa
+            dispatch(addToCart(product)); // Thêm sản phẩm vào giỏ hàng
+            console.log('Product added to cart', product); // Hiển thị sản phẩm vừa được thêm vào giỏ hàng
+            navigation.navigate('Cart'); // Chuyển sang trang Cart
+        } else {
+            console.log('Product detail is not available yet.'); // Hiển thị thông báo nếu chi tiết sản phẩm chưa được tải
+        }
+    };  
     return (
         <BackgroundProduct>
             <View style={styles.container}>
@@ -84,7 +100,7 @@ const ProductDetail = ({ navigation, route }: any) => {
 )}
                          />
                     </View>
-                    <TouchableOpacity style={styles.btn} onPress={() => handleAddToCart}>
+                    <TouchableOpacity style={styles.btn} onPress={() => handleAddToCart()}>
     <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 18 }}>Add to Cart</Text>
 </TouchableOpacity>
                    

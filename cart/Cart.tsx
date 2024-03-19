@@ -1,68 +1,77 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Button, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { CartBox } from './CartBox'; // Import CartBox vào đây
-import { useNavigation} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
-const Cart: React.FC = ({ navigation, route }: any) => {
-    const cartBox = new CartBox(); 
+interface CartItem {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+}
 
-  
+const Cart: React.FC<any> = ({ navigation, route }) => {
+    const cart = useSelector((state: any) => state.cart.cart);
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+    useEffect(() => {
+        setCartItems(cart);
+    }, [cart]);
 
     const handleRemoveFromCart = (id: number) => {
-        if (cartBox.items.find(item => item.id === id)) {
-            cartBox.removeItem(id);
-        }
+        setCartItems(prevCartItems => prevCartItems.filter(item => item.id !== id));
     };
 
     const handleIncreaseQuantity = (id: number) => {
-        if (cartBox.items.find(item => item.id === id)) {
-            cartBox.increaseQuantity(id);
-        }
+        setCartItems(prevCartItems => prevCartItems.map(item => {
+            if (item.id === id) {
+                return { ...item, quantity: item.quantity + 1 };
+            }
+            return item;
+        }));
     };
 
     const handleDecreaseQuantity = (id: number) => {
-        if (cartBox.items.find(item => item.id === id)) {
-            cartBox.decreaseQuantity(id);
-        }
+        setCartItems(prevCartItems => prevCartItems.map(item => {
+            if (item.id === id && item.quantity > 1) {
+                return { ...item, quantity: item.quantity - 1 };
+            }
+            return item;
+        }));
     };
 
     const getTotal = (): number => {
-        return cartBox.getTotal();
+        return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
     };
 
     return (
         <View>
             <ScrollView>
-                <Text style={{ fontSize: 30, fontWeight: 'bold', alignItems: 'center', color: 'pink', textAlign: 'center' }}>Cart</Text>
-                {cartBox.items.length === 0 && (
-                    <Text style={{ textAlign: 'center' }}>Your cart is empty</Text>
+                <Text style={styles.header}>Cart</Text>
+                {cartItems.length === 0 && (
+                    <Text style={styles.emptyCartText}>Your cart is empty</Text>
                 )}
-                {cartBox.items.map(item => (
-    <View key={item.id}>
-        <View style={styles.frame}>
-            <Image source={{uri: item.image}} style={styles.img} />
-
-            <View style={styles.text}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', fontStyle: 'italic', color: 'black', marginBottom: 5 }}>{item.name}</Text>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', fontStyle: 'italic', color: 'black', marginBottom: 5 }}>Price: ${item.price}</Text>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', fontStyle: 'italic', color: 'black', marginBottom: 5 }}>Quantity: {item.quantity}</Text>
-            </View>
-            <View style={{ width: 80, height: 40, justifyContent: 'space-around', alignItems: 'stretch', }}>
-                <Button title="+" onPress={() => handleIncreaseQuantity(item.id)} />
-                <Button title="-" onPress={() => handleDecreaseQuantity(item.id)} />
-            </View>
-        </View>
-        <View style={{ width: 80, height: 40, justifyContent: 'space-around', alignItems: 'stretch', }}>
-            <Button title="Remove" onPress={() => handleRemoveFromCart(item.id)} />
-        </View>
-    </View>
+                {cartItems.map(item => (
+                    <View key={item.id} style={styles.itemContainer}>
+                        <Image source={{ uri: item.image }} style={styles.itemImage} />
+                        <View style={styles.itemDetails}>
+                            <Text style={styles.itemName}>{item.name}</Text>
+                            <Text style={styles.itemPrice}>Price: ${item.price}</Text>
+                            <Text style={styles.itemQuantity}>Quantity: {item.quantity}</Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Button title="+" onPress={() => handleIncreaseQuantity(item.id)} />
+                            <Button title="-" onPress={() => handleDecreaseQuantity(item.id)} />
+                            <Button title="Remove" onPress={() => handleRemoveFromCart(item.id)} />
+                        </View>
+                    </View>
                 ))}
-                {cartBox.items.length > 0 && (
-                    <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Total: ${getTotal()}</Text>
+                {cartItems.length > 0 && (
+                    <Text style={styles.totalText}>Total: ${getTotal()}</Text>
                 )}
-                {cartBox.items.length > 0 && (
-                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Pay")}>
-                        <Text style={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: 20 }}>Pay now</Text>
+                {cartItems.length > 0 && (
+                    <TouchableOpacity style={styles.payNowButton} onPress={() => navigation.navigate("Pay")}>
+                        <Text style={styles.payNowButtonText}>Pay now</Text>
                     </TouchableOpacity>
                 )}
             </ScrollView>
@@ -71,24 +80,55 @@ const Cart: React.FC = ({ navigation, route }: any) => {
 };
 
 const styles = StyleSheet.create({
-    frame: {
-        flexDirection: 'row',
-        marginTop: 20
+    header: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'pink',
+        textAlign: 'center',
+        marginTop: 20,
     },
-    img: {
+    emptyCartText: {
+        textAlign: 'center',
+        fontSize: 18,
+        marginTop: 20,
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    itemImage: {
         width: 100,
         height: 100,
-        borderRadius: 100,
+        borderRadius: 5,
     },
-    text: {
-        flexDirection: 'column',
-        marginLeft: 25,
-        marginTop: 5,
-        width: 220,
-        height: 100
+    itemDetails: {
+        marginLeft: 10,
+        flex: 1,
     },
-    btn: {
-        marginTop: '100%',
+    itemName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    itemPrice: {
+        fontSize: 16,
+    },
+    itemQuantity: {
+        fontSize: 16,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    totalText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginTop: 20,
+    },
+    payNowButton: {
         backgroundColor: 'pink',
         paddingVertical: 15,
         alignItems: 'center',
@@ -96,9 +136,14 @@ const styles = StyleSheet.create({
         width: '70%',
         height: 60,
         justifyContent: 'center',
-        marginLeft: 60,
-        marginBottom: 20,
-    }
-})
+        alignSelf: 'center',
+        marginTop: 20,
+    },
+    payNowButtonText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+});
 
 export default Cart;

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Product {
-  _id: string;
+  id: string;
   name: string;
   image: string;
   price: number;
@@ -22,23 +22,25 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const newItem = action.payload;
-      const existingItem = state.cart.find(item => item._id === newItem._id);
-      if (existingItem) {
-        // If the product already exists in the cart, increase its quantity by 1
-        existingItem.quantity += 1;
+      const newItem = action.payload; // Lấy sản phẩm được thêm vào từ action payload
+      console.log('laays dduocjw san phamar')
+      const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id); // Tìm chỉ mục của sản phẩm trong giỏ hàng (nếu có)
+      
+      if (existingItemIndex !== -1) {
+        // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
+        state.cart[existingItemIndex].quantity += 1;
       } else {
-        // If the product doesn't exist in the cart, add it with a quantity of 1
+        // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới vào giỏ hàng với số lượng là 1
         state.cart.push({ ...newItem, quantity: 1 });
       }
     },
    
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
-      state.cart = state.cart.filter((item) => item._id !== action.payload.id);
+      state.cart = state.cart.filter((item) => item.id !== action.payload.id);
     },
     incementQuantity: (state, action: PayloadAction<{ id: string }>) => {
       const itemPresent = state.cart.find(
-        (item) => item._id === action.payload.id
+        (item) => item.id === action.payload.id
       );
       if (itemPresent) {
         itemPresent.quantity++;
@@ -46,7 +48,7 @@ export const CartSlice = createSlice({
     },
     decrementQuantity: (state, action: PayloadAction<{ id: string }>) => {
       const itemPresent = state.cart.find(
-        (item) => item._id === action.payload.id
+        (item) => item.id === action.payload.id
       );
       if (itemPresent && itemPresent.quantity > 1) {
         itemPresent.quantity--;
