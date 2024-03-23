@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, TextInput, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 interface Product {
     id: number;
@@ -7,7 +9,7 @@ interface Product {
     price: number;
 }
 
-const ProductComponent = () => {
+const Search = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<Product[]>([]);
@@ -36,28 +38,59 @@ const ProductComponent = () => {
 
     function searchProductByName(products: Product[], query: string): Product[] {
         query = query.toLowerCase();
-        return products.filter(product => product.name.toLowerCase().includes(query));
+        // Kiểm tra nếu từ khóa tìm kiếm chứa từ "hoa "
+        if (query.endsWith("hoa ")) {
+            return products.filter(product => product.name.toLowerCase().includes("hoa"));
+        }
+        return [];
     }
 
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                //onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <ul>
+        <View>
+            <View style={styles.each}>
+                <TextInput
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChangeText={text => setSearchTerm(text)} // Cập nhật searchTerm khi người dùng nhập vào ô tìm kiếm
+                />
+                <Icon name="search" style={styles.icon} />
+            </View>
+            <View>
                 {searchResults.map(product => (
-                    <li key={product.id}>
-                        <div>{product.name}</div>
-                        <div>Price: {product.price}</div>
-                        <div><img src={product.image} alt={product.name} /></div>
-                    </li>
+                    <View key={product.id}>
+                        <Text>{product.name}</Text>
+                        <Text>Price: {product.price}</Text>
+                        <Image source={{ uri: product.image }} style={styles.image} />
+                    </View>
                 ))}
-            </ul>
-        </div>
+            </View>
+        </View>
     );
 };
 
-export default ProductComponent;
+export default Search;
+
+const styles = StyleSheet.create({
+    icon: {
+        fontSize: 22,
+        position: 'absolute',
+        top: 8,
+        zIndex: 1000,
+        paddingLeft: 340
+    },
+    each: {
+        width: '100%',
+        height: 40,
+        padding: 1,
+        borderRadius: 30,
+        borderWidth: 1,
+        borderColor: '#A9EDE9',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        marginBottom: 15
+    },
+    image: {
+        width: 100,
+        height: 100
+    }
+});

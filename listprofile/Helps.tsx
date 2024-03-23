@@ -46,7 +46,7 @@ const Helps = ({navigation}:any) => {
                 style={styles.addButton}
                 onPress={() => setModalVisible(true)}
             >
-                <Text style={styles.addButtonText}>Thêm dịch vụ mới</Text>
+                <Text style={styles.addButtonText}>Hỗ trợ kĩ thuật</Text>
             </TouchableOpacity>
             <Modal
                 animationType="slide"
@@ -77,7 +77,8 @@ const Helps = ({navigation}:any) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20
+        padding: 20,
+       
     },
     cont1:{
         flexDirection:'row',

@@ -9,7 +9,8 @@ import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/CartReducer";
 import Cart from "../../cart/Cart";
-import { CartBox } from "../../cart/CartBox";
+import { CartItem } from "../../cart/CartItem";
+
 
 
 const Tab = createNativeStackNavigator();
@@ -23,7 +24,7 @@ export const StackDetail = () => {
 }
 
 interface Product {
-    id: string;
+    _id: string;
     name: string;
     image: string;
     price: number;
@@ -42,7 +43,7 @@ const ProductDetail = ({ navigation, route }: any) => {
                 if (!response.data) {
                     throw new Error('Failed to fetch product details');
                 }
-                const productDetail: Product = response.data; // Assuming the response data is a single product
+                const productDetail: Product = response.data; 
                 setProduct([productDetail]);
             } catch (error) {
                 console.error(error);
@@ -50,18 +51,30 @@ const ProductDetail = ({ navigation, route }: any) => {
         };
     
         fetchProductDetail();
-    }, []);
+    }, [productId]);
+
     const dispatch = useDispatch();
 
     const handleAddToCart = () => {
-        if (product) { // Kiểm tra xem sản phẩm đã được tải thành công chưa
-            dispatch(addToCart(product)); // Thêm sản phẩm vào giỏ hàng
-            console.log('Product added to cart', product); // Hiển thị sản phẩm vừa được thêm vào giỏ hàng
-            navigation.navigate('Cart'); // Chuyển sang trang Cart
-        } else {
-            console.log('Product detail is not available yet.'); // Hiển thị thông báo nếu chi tiết sản phẩm chưa được tải
-        }
-    };  
+        // Lấy thông tin sản phẩm từ product
+        const productItem = product[0];
+        console.log(product)
+
+        // Tạo đối tượng CartItem từ thông tin sản phẩm
+        const cartItem: CartItem = {
+            id: productItem._id,
+            name: productItem.name,
+            image: productItem.image,
+            price: productItem.price,
+            quantity: 1 // Số lượng mặc định khi thêm vào giỏ hàng
+        };
+    
+        // Gửi đối tượng CartItem đến redux store bằng cách gọi action addToCart
+        dispatch(addToCart(cartItem));
+    
+        // Điều hướng đến trang giỏ hàng
+        navigation.navigate('Cart');
+    };
     return (
         <BackgroundProduct>
             <View style={styles.container}>

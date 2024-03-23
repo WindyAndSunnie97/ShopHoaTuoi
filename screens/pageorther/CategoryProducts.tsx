@@ -8,13 +8,13 @@ interface Product {
     price: number;
 }
 const CategoryProducts = ({ route, navigation }:any) => {
-    const { category } = route.params;
+    const { categoryId } = route.params;
     const [products, setCatProducts] = useState<Product[]>([]);
 
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const response = await fetch(`http://10.0.2.2:3000/api/Flowershop/product?category=${category}`);
+                const response = await fetch(`http://10.0.2.2:3000/api/Flowershop/product?category=${categoryId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch products');
                 }

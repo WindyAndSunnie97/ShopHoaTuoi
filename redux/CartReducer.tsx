@@ -1,16 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CartItem } from '../cart/CartItem';
 
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-  description: string;
-  quantity: number; // Thêm thuộc tính quantity vào interface Product
-}
 
 interface CartState {
-  cart: Product[];
+  cart: CartItem[];
 }
 
 const initialState: CartState = {
@@ -23,17 +16,25 @@ export const CartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const newItem = action.payload; // Lấy sản phẩm được thêm vào từ action payload
-      console.log('laays dduocjw san phamar')
-      const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id); // Tìm chỉ mục của sản phẩm trong giỏ hàng (nếu có)
+  
+      // Tìm kiếm xem sản phẩm đã tồn tại trong giỏ hàng hay chưa bằng cách so sánh id của sản phẩm
+      const existingItemIndex = state.cart.findIndex(item => item.id === newItem.id);
       
       if (existingItemIndex !== -1) {
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
-        state.cart[existingItemIndex].quantity += 1;
+          // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
+          state.cart[existingItemIndex].quantity += 1;
       } else {
-        // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới vào giỏ hàng với số lượng là 1
-        state.cart.push({ ...newItem, quantity: 1 });
+          // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới vào giỏ hàng với số lượng là 1
+          state.cart.push({ 
+              id: newItem.id, 
+              name: newItem.name,
+              image: newItem.image,
+              price: newItem.price,
+              quantity: 1 
+          });
       }
-    },
+  },
+    
    
     removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
       state.cart = state.cart.filter((item) => item.id !== action.payload.id);
@@ -69,3 +70,5 @@ export const {
 } = CartSlice.actions;
 
 export default CartSlice.reducer;
+
+

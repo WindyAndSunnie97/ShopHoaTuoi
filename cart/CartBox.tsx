@@ -37,6 +37,7 @@ export class CartBox {
     constructor() {
         this.items = [];
     }
+ 
 
     // Thêm một mục vào giỏ hàng
     addItem(item: CartItem) {
@@ -49,12 +50,12 @@ export class CartBox {
     }
 
     // Xóa một mục khỏi giỏ hàng dựa trên id
-    removeItem(id: number) {
+    removeItem(id: string) {
         this.items = this.items.filter(item => item.id !== id);
     }
 
     // Tăng số lượng của một mục trong giỏ hàng
-    increaseQuantity(id: number) {
+    increaseQuantity(id: string) {
         const item = this.items.find(i => i.id === id);
         if (item) {
             item.quantity += 1;

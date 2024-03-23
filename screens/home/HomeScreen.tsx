@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import ProductDetail from "../pageorther/ProductDetail.tsx"
 import CategoryProducts from "../pageorther/CategoryProducts"
 import BackgoundScreen from "../components/BackgoundScreen"
+import Search from "./Search.tsx"
 
 
 type Props ={
@@ -45,18 +46,17 @@ const HomeScreen:React.FC = () => {
     <ScrollView>
     <View style={{ paddingHorizontal: 10 }}>
       <Header email={email}/>
-      <View style={styles.seach}>
+      {/* <View style={styles.seach}>
       <TextInput placeholder="Search" style ={styles.text}  onChangeText={(text) => setSearchValue(text)}
     onSubmitEditing={handleSearch}></TextInput>
-      <Icon name="search" style={styles.icon}/>
-      </View>
+      <Icon name="search" style={styles.icon}/> */}
+      <Search/>
       <Introduce/>
       <ListCategogy />
       <ListProduct />
     </View>
     </ScrollView>
-  )
-};
+  )}
 
 export default HomeScreen;
 

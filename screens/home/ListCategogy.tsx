@@ -43,7 +43,7 @@ useEffect(()=>{
             horizontal
             data={products}
                 renderItem={({item}:any)=> 
-                <TouchableOpacity onPress={() => navigation.dispatch(CommonActions.navigate("CatPro", { category: item.category }) )} >  
+                <TouchableOpacity onPress={() => navigation.dispatch(CommonActions.navigate("CatPro", { categoryId: item.category }) )} >  
             <View style={styles.item}>
            
                 <Image source={{uri:item.image}} style={styles.img} />

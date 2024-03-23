@@ -1,20 +1,18 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import BackgoundScreen from "../components/BackgoundScreen";
 import Icons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/RootState";
+import { isLogin } from "../../redux/login/action";
 
 
 const LoginScreen = ({ navigation }: any) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const dispath = useDispatch()
-    const data = useSelector((state: RootState) => state.login);
-    if (data.isAuth) {
-        navigation.replace("HomeScreen")
-    }
+    const dispatch = useDispatch(); // Sử dụng useDispatch để gửi action
+
     const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert("Please enter both email and password.");
@@ -23,10 +21,13 @@ const LoginScreen = ({ navigation }: any) => {
 
         try {
             const response = await axios.post("http://10.0.2.2:3000/api/Flowershop/users/login", { email, password });
-            // Xử lý phản hồi từ API ở đây
             console.log(response.data);
-            // Chuyển hướng đến màn hình khác sau khi đăng nhập thành công
-            navigation.navigate("HomeScreen", { userEmail: email });
+
+            // Lưu thông tin đăng nhập vào Redux store
+            dispatch(isLogin(response.data));
+
+            // Chuyển hướng sau khi đăng nhập thành công
+            navigation.replace("Account", { userData: response.data});
         } catch (error) {
             console.log("Error:", error);
             Alert.alert("Failed to login. Please try again later.");

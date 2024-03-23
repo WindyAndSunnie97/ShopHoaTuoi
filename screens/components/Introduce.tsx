@@ -6,8 +6,9 @@ import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View, Image } f
 
 const image = [
     'https://ledmofan.com/wp-content/uploads/2022/01/hinh-nen-hoa-mau-don-14.jpg',
-    'https://images.pexels.com/photos/1484657/pexels-photo-1484657.jpeg?cs=srgb&dl=pexels-valeria-boltneva-1484657.jpg&fm=jpg',
-    'https://photo-cms-anninhthudo.epicdn.me/h600/Uploaded/2024/xtsmr/2023_10_02/juliet1-1327-2391.jpg'
+    'https://png.pngtree.com/background/20230414/original/pngtree-pink-peony-petals-flowers-flowers-decoration-bright-floral-background-picture-image_2425071.jpg',
+    'https://fptshop.com.vn/Uploads/Originals/2023/12/7/638375526430344060_anh-bia-hinh-nen-may-tinh-hoa-mau-don.png',
+    'https://i.pinimg.com/originals/4a/8b/06/4a8b06e05816376ff78d232610e24b86.png'
 ];
 
 const WIDTH = Dimensions.get('window').width;
